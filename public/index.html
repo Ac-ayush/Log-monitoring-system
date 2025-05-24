@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Log Monitoring System</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+      body {
+        font-family: "Courier New", Courier, monospace;
+        margin: 20px;
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+      }
+      h1 {
+        color: #569cd6;
+        text-align: center;
+      }
+      #logContainer {
+        background-color: #252526;
+        border: 1px solid #3c3c3c;
+        padding: 20px;
+        height: 80vh;
+        overflow-y: auto;
+        border-radius: 5px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      .log-line {
+        margin: 2px 0;
+        padding: 2px 5px;
+        border-radius: 3px;
+      }
+      .log-line:hover {
+        background-color: #2a2d2e;
+      }
+      .timestamp {
+        color: #6a9955;
+        margin-right: 10px;
+      }
+      .error {
+        color: #f14c4c;
+      }
+      .warn {
+        color: #cca700;
+      }
+      .info {
+        color: #569cd6;
+      }
+    </style>
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <h1>Real-time Log Monitor</h1>
+    <div id="logContainer"></div>
+
+    <script>
+      const socket = io();
+      const logContainer = document.getElementById("logContainer");
+
+      // Function to add a new log line
+      function addLogLine(line) {
+        const logLine = document.createElement("div");
+        logLine.className = "log-line";
+
+        // Add timestamp
+        const timestamp = document.createElement("span");
+        timestamp.className = "timestamp";
+        timestamp.textContent = new Date().toLocaleTimeString();
+        logLine.appendChild(timestamp);
+
+        // Add log content
+        const content = document.createElement("span");
+        content.textContent = line;
+
+        // Add appropriate class based on log level
+        if (line.toLowerCase().includes("error")) {
+          content.className = "error";
+        } else if (line.toLowerCase().includes("warn")) {
+          content.className = "warn";
+        } else {
+          content.className = "info";
+        }
+
+        logLine.appendChild(content);
+        logContainer.appendChild(logLine);
+
+        // Auto scroll to bottom
+        logContainer.scrollTop = logContainer.scrollHeight;
+      }
+
+      // Handle initial logs
+      socket.on("initial-logs", (logs) => {
+        logs.forEach((line) => addLogLine(line));
+      });
+
+      // Handle real-time updates
+      socket.on("log-update", (line) => {
+        addLogLine(line);
+      });
+    </script>
+  </body>
+</html>
