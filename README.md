@@ -2,6 +2,9 @@
 
 A real-time log monitoring system that helps you track, analyze, and visualize application logs through a web interface.
 
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/a1e717e5-67ea-4e06-8ba8-a39141d4fed2" />
+
+
 ## Learnings - Core Concepts
 
 - **Real-time Data Processing**: Understanding how to handle and process log data in real-time using Node.js streams
