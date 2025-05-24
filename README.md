@@ -36,7 +36,7 @@ A real-time log monitoring system that helps you track, analyze, and visualize a
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Ac-ayush/Log-monitoring-system.git
    cd Log-monitoring-system
    ```
 
@@ -68,3 +68,5 @@ Log-monitoring-system/
 ├── logs/             # Log files directory
 └── node_modules/     # Installed dependencies
 ```
+
+- Add your logs in /app.log file and check the updated log on UI
